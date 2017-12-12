@@ -14,7 +14,7 @@ int alhour=0;
 int alminute=0;
 int alday=1;
 int almonth=1;
-int alyear=1991;
+int alyear=2001;
 int alarm=0;
 long pre, now;
 int note;
@@ -190,7 +190,7 @@ if (sec==alsec && minute==alminute && hour==alhour){
       alhour =0;
      }
     if( millis()-time2 >=1000) {
-     time2=millis();  //前一次時間
+          time2+=1000;  //前一次時間
      sec++;
     }
 if(customKey=='E'){P='B';}
@@ -242,7 +242,7 @@ if(sec==60){
       alhour =0;
     }
 if( millis()-time2 >=1000) {
-           time2=millis();  //前一次時間
+          time2+=1000;  //前一次時間
  sec++;
      }
 
