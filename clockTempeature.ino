@@ -98,7 +98,7 @@ char customKey = customKeypad.getKey();
   Serial.println(" *F");
 switch(P){
 case 'A':  //時鐘
-      if(sec/3==4 || sec/3==14){  //每到4秒顯示日期一秒
+      if(sec/3==4 || sec/3==14){  //每到第12,42秒顯示日期3秒
       lc.clearDisplay(0);
       lc.setDigit(0,0,day%10,true);
       lc.setDigit(0,1,day/10,false);
@@ -108,7 +108,7 @@ case 'A':  //時鐘
       lc.setChar(0,5,(year/10)%10,false);
       lc.setDigit(0,6,(year/100)%10,false);
       lc.setDigit(0,7,year/1000,false);
-      }else if(sec/3==9 || sec/3==19 ){
+      }else if(sec/3==9 || sec/3==19 ){  //每到第27,57秒顯示溫度濕度3秒
         if(setAlarm1){
         printNumber4(int(AH));
         printNumber3(int(AT));
@@ -116,10 +116,10 @@ case 'A':  //時鐘
         printNumber2(int(h));
         printNumber(int(t));
       }
-      }
-else{
-lc.clearDisplay(0);
-        lc.setDigit(0,0,sec%10,false);
+    }
+  else{
+        lc.clearDisplay(0);
+        lc.setDigit(0,0,sec%10,false);  //其他時間顯示時間
         lc.setDigit(0,1,sec/10,false);
         lc.setChar(0,2,'-',false);
         lc.setDigit(0,3,minute%10,false);
@@ -127,37 +127,37 @@ lc.clearDisplay(0);
         lc.setChar(0,5,'-',false);
         lc.setDigit(0,6,hour%10,false);
         lc.setDigit(0,7,hour/10,false);
-       }if (customKey=='0'){
-  sec++;
+  }
+  if (customKey=='0'){
+    sec++;
   }else if (customKey=='1'){
     sec--;
-  }
-   else if (customKey=='2'){
+  }  else if (customKey=='2'){
     minute++;
   }else if (customKey=='3'){
     minute--;
-  }
-else if(customKey=='4'){
+  }else if(customKey=='4'){
     hour++;
   }else if(customKey=='5'){
     hour--;
   }
-if (alarm==1){
-now=millis();
-  if (( now - pre) >= 0){
-    noteDuration=1000/noteDurations[note];
-    tone(A1, melody[note],noteDuration); 
-    pre = millis() + noteDuration*1.3;
-    note++;
-    }if(note==8){
-note = 0;
-pre=millis();
-alarm = 0;
-}
-}
-if (sec==alsec && minute==alminute && hour==alhour){
-      alarm=1; 
-}
+  if (alarm==1){
+    now=millis();
+    if (( now - pre) >= 0){
+      noteDuration=1000/noteDurations[note];
+      tone(A1, melody[note],noteDuration); 
+      pre = millis() + noteDuration*1.3;
+      note++;
+    }
+    if(note==8){
+      note = 0;
+      pre=millis();
+      alarm = 0;
+    }
+  }
+  if (sec==alsec && minute==alminute && hour==alhour){
+        alarm=1; 
+  }
     if(sec==60){
       minute++;
       sec=0;
@@ -193,11 +193,11 @@ if (sec==alsec && minute==alminute && hour==alhour){
           time2+=1000;  //前一次時間
      sec++;
     }
-if(customKey=='E'){P='B';}
-if(customKey=='D'){P='C';}
-break;
+  if(customKey=='E'){P='B';}
+  if(customKey=='D'){P='C';}
+  break;
 case 'B':  //鬧鈴設定
- lc.clearDisplay(0);
+      lc.clearDisplay(0);
       lc.setDigit(0,0,alsec%10,false);
       lc.setDigit(0,1,alsec/10,false);
       lc.setChar(0,2,'-',false);
@@ -206,7 +206,7 @@ case 'B':  //鬧鈴設定
       lc.setChar(0,5,'-',false);
       lc.setDigit(0,6,alhour%10,false);
       lc.setDigit(0,7,alhour/10,false);
-if (customKey=='0'){
+  if (customKey=='0'){
         alsec+=10;
   }else if (customKey=='1'){
         alsec-=10;
@@ -219,7 +219,7 @@ if (customKey=='0'){
   }else if (customKey=='5'){
         alhour-=1;
   }
-if(sec==60){
+  if(sec==60){
       minute++;
       sec=0;
     }
@@ -241,14 +241,14 @@ if(sec==60){
     if(alhour == 24){
       alhour =0;
     }
-if( millis()-time2 >=1000) {
-          time2+=1000;  //前一次時間
- sec++;
-     }
-
- if(customKey=='F'){P='A';}
- if(customKey=='D'){P='C';}
-break;
+    if( millis()-time2 >=1000) {
+              time2+=1000;  //前一次時間
+     sec++;
+         }
+    
+     if(customKey=='F'){P='A';}
+     if(customKey=='D'){P='C';}
+    break;
 case 'C':  //日期設定
       lc.clearDisplay(0);
       lc.setDigit(0,0,alday%10,true);
@@ -259,7 +259,7 @@ case 'C':  //日期設定
       lc.setChar(0,5,(alyear/10)%10,false);
       lc.setDigit(0,6,(alyear/100)%10,false);
       lc.setDigit(0,7,alyear/1000,false);
-if (customKey=='0'){
+  if (customKey=='0'){
         alday+=1;
         day=alday;
   }else if (customKey=='1'){
@@ -278,7 +278,7 @@ if (customKey=='0'){
         alyear-=1;
         year=alyear;
   }
-if(sec==60){
+  if(sec==60){
       minute++;
       sec=0;
     }
@@ -317,14 +317,14 @@ if(sec==60){
           time2+=1000;  //前一次時間
  sec++;
     }
-  if(customKey=='E'){
-    P='B';
+    if(customKey=='E'){
+      P='B';
+    }
+     if(customKey=='F'){
+      P='A';
+    }
+  break;
   }
-   if(customKey=='F'){
-    P='A';
-  }
-break;
-}
 }
 
 void printNumber(int v) {
@@ -351,6 +351,7 @@ lc.setDigit(0,6,(byte)tens,false);
 lc.setDigit(0,5,(byte)ones,false);
   lc.setRow(0,4,B01100011);  //up o
 }
+
 void printNumber2(int c) {
 int ones;
 int tens;
@@ -376,6 +377,7 @@ lc.setDigit(0,2,(byte)tens,false);
 lc.setDigit(0,1,(byte)ones,false);
  lc.setRow(0,0,B00110111);  // H
 }
+
 void printNumber4(int b) {
 int ones;
 int tens;
@@ -400,6 +402,7 @@ lc.setDigit(0,2,(byte)tens,false);
 lc.setDigit(0,1,(byte)ones,false);
   lc.setRow(0,0,B00110111);  // H
 }
+
 void printNumber3(int n) {
 int ones;
 int tens;
